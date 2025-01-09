@@ -11,7 +11,8 @@ composeBom = "2024.04.01"
 roomCommon = "2.6.1"
 roomKtx = "2.6.1"
 dagger = "2.54"
-
+hiltNavigation = "1.0.0"
+composeMaterial3 = "1.0.0-alpha30"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -31,7 +32,8 @@ androidx-room-common = { group = "androidx.room", name = "room-common", version.
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 dagger-hilt = {group = "com.google.dagger", name =  "hilt-android", version.ref = "dagger"}
 dagger-hilt-compile = {group = "com.google.dagger", name =  "hilt-compiler", version.ref = "dagger"}
-
+dagger-hilt-navigation = {group = "androidx.hilt", name = "hilt-navigation-compose" , version.ref = "hiltNavigation"}
+androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

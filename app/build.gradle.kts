@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.compile)
+    implementation(libs.dagger.hilt.navigation)
+    implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
