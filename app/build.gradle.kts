@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "kazemi.milad.android.todoapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "kazemi.milad.android.todoapp"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -38,6 +38,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -53,7 +54,6 @@ dependencies {
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
     implementation(libs.dagger.hilt)
-    implementation(libs.dagger.hilt.compile)
     implementation(libs.dagger.hilt.navigation)
     implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
