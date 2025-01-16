@@ -1,8 +1,11 @@
 package kazemi.milad.android.todoapp.ui.todo_list
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kazemi.milad.android.todoapp.R
 
 import kazemi.milad.android.todoapp.data.Todo
 import kazemi.milad.android.todoapp.data.TodoRepository
@@ -15,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
-    private val repository: TodoRepository
+    private val repository: TodoRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     val todos = repository.getTodos()
@@ -30,19 +34,23 @@ class TodoListViewModel @Inject constructor(
                 viewModelScope.launch {
                     deletedTodo = event.todo
                     repository.deleteTodo(event.todo)
-                    sendUiEvent(UiEvent.ShowSnackBar(
-                        message = "todo deleted",
-                        action = "undo"
-                    ))
+                    sendUiEvent(
+                        UiEvent.ShowSnackBar(
+                            message = context.getString(R.string.deleted_todo),
+                            action = context.getString(R.string.undo)
+                        )
+                    )
                 }
             }
+
             is TodoListEvent.OnUndoDeleteClick -> {
-               deletedTodo?.let { todo->
-                   viewModelScope.launch {
-                       repository.insertTodo(todo)
-                   }
-               }
+                deletedTodo?.let { todo ->
+                    viewModelScope.launch {
+                        repository.insertTodo(todo)
+                    }
+                }
             }
+
             is TodoListEvent.OnDoneChange -> {
                 viewModelScope.launch {
                     repository.insertTodo(
@@ -52,9 +60,11 @@ class TodoListViewModel @Inject constructor(
                     )
                 }
             }
+
             is TodoListEvent.OnTodoClick -> {
                 sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=${event.todo.id}"))
             }
+
             is TodoListEvent.OnAddTodoClick -> {
                 sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO))
             }

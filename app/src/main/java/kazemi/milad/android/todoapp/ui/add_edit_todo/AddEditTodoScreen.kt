@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kazemi.milad.android.todoapp.R
 import kazemi.milad.android.todoapp.utils.UiEvent
 
 @Composable
@@ -52,7 +54,8 @@ fun AddEditTodoScreen(
             FloatingActionButton(onClick = {
                 viewModel.onEvent(AddEditTodoEvent.OnSaveTodoClick)
             }) {
-                Icon(Icons.Default.Check, contentDescription = "save todo")
+                Icon(Icons.Default.Check, contentDescription =
+                stringResource(R.string.save_todo))
             }
         }) { paddingValues ->
         Column(
@@ -65,7 +68,7 @@ fun AddEditTodoScreen(
                     viewModel.onEvent(AddEditTodoEvent.OnTitleChanged(it))
                 },
                 placeholder = {
-                    Text(text = "Title")
+                    Text(text = stringResource(R.string.title))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -77,7 +80,7 @@ fun AddEditTodoScreen(
                     viewModel.onEvent(AddEditTodoEvent.OnDescriptionChanged(it))
                 },
                 placeholder = {
-                    Text(text = "Description")
+                    Text(text = stringResource(R.string.description))
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = false,

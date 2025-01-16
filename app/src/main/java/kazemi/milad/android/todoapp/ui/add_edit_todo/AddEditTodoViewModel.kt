@@ -1,5 +1,6 @@
 package kazemi.milad.android.todoapp.ui.add_edit_todo
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +8,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kazemi.milad.android.todoapp.R
 import kazemi.milad.android.todoapp.data.Todo
 import kazemi.milad.android.todoapp.data.TodoRepository
 import kazemi.milad.android.todoapp.utils.UiEvent
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditTodoViewModel @Inject constructor(
     private val repository: TodoRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     var todo by mutableStateOf<Todo?>(null)
         private set
@@ -38,7 +42,7 @@ class AddEditTodoViewModel @Inject constructor(
 
         if (todoId != -1) {
             viewModelScope.launch {
-                val todo = repository.getTodoById(todoId)?.let { todo ->
+                repository.getTodoById(todoId)?.let { todo ->
                     title = todo.title
                     description = todo.description ?: ""
                     this@AddEditTodoViewModel.todo = todo
@@ -59,9 +63,10 @@ class AddEditTodoViewModel @Inject constructor(
                     if (title.isBlank()) {
                         sendUiEvent(
                             UiEvent.ShowSnackBar(
-                                message = "title cant be empty"
+                                message = context.getString(R.string.required_title)
                             )
                         )
+
                         return@launch
                     }
                     repository.insertTodo(
@@ -69,7 +74,7 @@ class AddEditTodoViewModel @Inject constructor(
                             title = title,
                             description = description,
                             isDone = todo?.isDone ?: false,
-                            id = todo?.id?:0
+                            id = todo?.id ?: 0
                         )
                     )
                 }

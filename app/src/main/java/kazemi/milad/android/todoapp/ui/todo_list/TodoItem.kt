@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kazemi.milad.android.todoapp.R
 import kazemi.milad.android.todoapp.data.Todo
 
 @Composable
@@ -44,7 +46,7 @@ fun TodoItem(
                 IconButton(onClick = {
                     onEvent(TodoListEvent.OnDeleteTodoClick(todo))
                 }) {
-                    Icon(Icons.Default.Delete, contentDescription = "delete")
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
                 }
             }
             todo.description?.let {

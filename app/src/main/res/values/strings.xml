@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">todoApp</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="save_todo">save todo</string>
+    <string name="required_title">title can`t be empty.</string>
+    <string name="add_new_todo">add new todo</string>
+    <string name="deleted_todo">todo deleted</string>
+    <string name="undo">todo deleted</string>
+    <string name="delete">delete</string>
 </resources>

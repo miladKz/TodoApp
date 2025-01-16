@@ -19,8 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kazemi.milad.android.todoapp.R
 import kazemi.milad.android.todoapp.utils.UiEvent
 
 @Composable
@@ -55,7 +57,7 @@ fun TodoListScreen(
             FloatingActionButton(onClick = {
                 viewModel.onEvent(TodoListEvent.OnAddTodoClick)
             }) {
-                Icon(Icons.Default.Add, contentDescription = "Add new Todo")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_new_todo))
             }
         }) { paddingValues ->
         LazyColumn(
