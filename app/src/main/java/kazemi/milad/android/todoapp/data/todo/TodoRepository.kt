@@ -1,9 +1,5 @@
-package kazemi.milad.android.todoapp.data
+package kazemi.milad.android.todoapp.data.todo
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 interface TodoRepository {

@@ -1,4 +1,4 @@
-package kazemi.milad.android.todoapp.data
+package kazemi.milad.android.todoapp.data.todo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

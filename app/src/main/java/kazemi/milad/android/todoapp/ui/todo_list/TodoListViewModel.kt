@@ -7,8 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kazemi.milad.android.todoapp.R
 
-import kazemi.milad.android.todoapp.data.Todo
-import kazemi.milad.android.todoapp.data.TodoRepository
+import kazemi.milad.android.todoapp.data.todo.Todo
+import kazemi.milad.android.todoapp.data.todo.TodoRepository
 import kazemi.milad.android.todoapp.utils.Routes
 import kazemi.milad.android.todoapp.utils.UiEvent
 import kotlinx.coroutines.channels.Channel

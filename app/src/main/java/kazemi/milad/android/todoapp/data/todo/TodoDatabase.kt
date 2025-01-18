@@ -1,4 +1,4 @@
-package kazemi.milad.android.todoapp.data
+package kazemi.milad.android.todoapp.data.todo
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

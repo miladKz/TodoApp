@@ -1,6 +1,5 @@
 package kazemi.milad.android.todoapp.ui.todo_list
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kazemi.milad.android.todoapp.R
-import kazemi.milad.android.todoapp.data.Todo
+import kazemi.milad.android.todoapp.data.todo.Todo
 
 @Composable
 fun TodoItem(

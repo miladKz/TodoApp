@@ -1,4 +1,4 @@
-package kazemi.milad.android.todoapp.data
+package kazemi.milad.android.todoapp.data.todo
 
 import androidx.room.Dao
 import androidx.room.Delete

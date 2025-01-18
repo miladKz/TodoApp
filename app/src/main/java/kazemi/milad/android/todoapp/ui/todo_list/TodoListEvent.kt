@@ -1,6 +1,6 @@
 package kazemi.milad.android.todoapp.ui.todo_list
 
-import kazemi.milad.android.todoapp.data.Todo
+import kazemi.milad.android.todoapp.data.todo.Todo
 
 sealed class TodoListEvent {
     data class OnDeleteTodoClick(val todo: Todo) : TodoListEvent()
