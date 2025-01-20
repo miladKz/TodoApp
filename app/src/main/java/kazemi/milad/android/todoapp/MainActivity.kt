@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import kazemi.milad.android.todoapp.ui.add_edit_todo.AddEditTodoScreen
+import kazemi.milad.android.todoapp.ui.setting.SettingViewModel
 import kazemi.milad.android.todoapp.ui.theme.TodoAppTheme
 import kazemi.milad.android.todoapp.ui.todo_list.TodoListScreen
 import kazemi.milad.android.todoapp.utils.Routes
@@ -21,7 +24,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TodoAppTheme {
+            val settingViewModel: SettingViewModel = hiltViewModel()
+            TodoAppTheme(
+                darkTheme = settingViewModel.isDarkMode.collectAsState().value
+            ) {
+                println(settingViewModel.isDarkMode.collectAsState().value)
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,

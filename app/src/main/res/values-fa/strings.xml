@@ -8,4 +8,8 @@
     <string name="deleted_todo">کار حذف شد</string>
     <string name="undo">بازیابی</string>
     <string name="delete">حذف</string>
+    <string name="settings">تنظیمات</string>
+    <string name="menu">منو</string>
+    <string name="theme_mode">تیره</string>
+    <string name="select_language">انتخاب زبان</string>
 </resources>

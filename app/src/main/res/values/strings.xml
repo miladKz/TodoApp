@@ -8,4 +8,8 @@
     <string name="deleted_todo">todo deleted</string>
     <string name="undo">todo deleted</string>
     <string name="delete">delete</string>
+    <string name="settings">settings</string>
+    <string name="menu">menu</string>
+    <string name="theme_mode">theme mode</string>
+    <string name="select_language">select language</string>
 </resources>
