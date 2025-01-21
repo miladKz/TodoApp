@@ -1,68 +1,92 @@
 package kazemi.milad.android.todoapp.ui.theme
 
-import android.app.Activity
+import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40 ,
-    background = Color(0xFF1C022A),
-    surface = Color(0xFF5C4881),
-    onPrimary = Color(0xFFFFFFFF),
-    onSecondary = Color(0xFF19096B),
-    onTertiary = Color(0xFF4F14FF),
-    onBackground = Color(0xFFFFFFFF),
-    surfaceVariant = Color(0xFF43054D),
-    onSurface = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFF43054D),
-)
+object AppThemeColors {
+    val DarkColorScheme = darkColorScheme(
+        primary = PurpleVariant,
+        secondary = DarkGray,
+        tertiary = Wine,
+        background = NearBlack,
+        surface = DarkPurple,
+        onPrimary = White,
+        onSecondary = DeepPurple,
+        onTertiary = DeepPurple2,
+        onBackground = White,
+        surfaceVariant = RoyalPurple,
+        onSurface = White,
+        primaryContainer = RoyalPurple
+    )
 
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40 ,
-    background = Color(0xC8ECE2FF),
-    surface = Color(0xFFB48CFF),
-    onPrimary = Color(0xFFBBFF7F),
-    onSecondary = Color(0xFF070017),
-    onTertiary = Color(0xFFBBFF7F),
-    onBackground = Color(0xFF000000),
-    surfaceVariant = Color(0xC8EBFFE2),
-    onSurface = Color(0xFF000000),
-    primaryContainer = Color(0xFFFFFFFF),
-)
+    val LightColorScheme = lightColorScheme(
+        primary = Purple,
+        secondary = DarkGray,
+        tertiary = Wine,
+        background = LightPurpleBackground,
+        surface = LightPurple,
+        onPrimary = LightGreen,
+        onSecondary = Black,
+        onTertiary = LightGreen,
+        onBackground = Black,
+        surfaceVariant = LightGreenBackground,
+        onSurface = Black,
+        primaryContainer = White
+    )
+}
 
 @Composable
 fun TodoAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    val context = LocalContext.current
+    val colorScheme = getColorScheme(context, darkTheme, dynamicColor)
+    val layoutDirection = getLayoutDirection(context)
+
+    CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
+}
+
+private fun getColorScheme(
+    context: Context,
+    darkTheme: Boolean,
+    dynamicColor: Boolean
+): ColorScheme {
+    return when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) {
+                dynamicDarkColorScheme(context)
+            } else {
+                dynamicLightColorScheme(context)
+            }
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> AppThemeColors.DarkColorScheme
+        else -> AppThemeColors.LightColorScheme
     }
+}
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+private fun getLayoutDirection(context: Context): LayoutDirection {
+    val currentLocale = context.resources.configuration.locales[0]
+    val isRtl = currentLocale.language.lowercase() == "fa"
+    return if (isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
 }

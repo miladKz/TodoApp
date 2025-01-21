@@ -82,11 +82,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun updateLocale(locale: Locale) {
-        val configuration = resources.configuration
-        configuration.setLocale(locale)
-        val context = createConfigurationContext(configuration)
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        context.resources.updateConfiguration(configuration, resources.displayMetrics)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        val context = createConfigurationContext(config)
+        resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 }
 
