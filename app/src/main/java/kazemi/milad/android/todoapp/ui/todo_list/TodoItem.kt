@@ -1,13 +1,12 @@
 package kazemi.milad.android.todoapp.ui.todo_list
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,30 +32,62 @@ fun TodoItem(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = todo.title, style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                IconButton(onClick = {
-                    onEvent(TodoListEvent.OnDeleteTodoClick(todo))
-                }) {
-                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
-                }
-            }
-            todo.description?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(it)
-            }
+        TodoDetails(
+            todo = todo, modifier = Modifier
+                .weight(1f)
+        )
+        TodoCheckbox(todo = todo, onEvent = onEvent)
+        TodoDeleteButton(todo = todo, onEvent = onEvent)
+    }
+}
+
+@Composable
+fun TodoDetails(todo: Todo, modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+    ) {
+        TodoTitle(todo = todo)
+        todo.description?.let {
+            TodoDescription(description = it)
         }
     }
-    Checkbox(checked = todo.isDone,
-        onCheckedChange = {isChecked ->
-            onEvent(TodoListEvent.OnDoneChange(todo, isChecked))
+}
 
-        })
+@Composable
+fun TodoTitle(todo: Todo) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = todo.title,
+            style = TextStyle(
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+    }
+}
+
+@Composable
+fun TodoDescription(description: String) {
+    Spacer(modifier = Modifier.height(8.dp))
+    Text(text = description)
+}
+
+@Composable
+fun TodoCheckbox(todo: Todo, onEvent: (TodoListEvent) -> Unit) {
+    Checkbox(
+        checked = todo.isDone,
+        onCheckedChange = { isChecked ->
+            onEvent(TodoListEvent.OnDoneChange(todo, isChecked))
+        }
+    )
+}
+
+@Composable
+fun TodoDeleteButton(todo: Todo, onEvent: (TodoListEvent) -> Unit) {
+    IconButton(onClick = {
+        onEvent(TodoListEvent.OnDeleteTodoClick(todo))
+    }) {
+        Icon(Icons.Outlined.Delete, contentDescription = stringResource(R.string.delete))
+    }
 }
