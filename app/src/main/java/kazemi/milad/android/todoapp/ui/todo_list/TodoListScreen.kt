@@ -11,6 +11,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -44,7 +45,9 @@ fun TodoListScreen(
             when (event) {
                 is UiEvent.ShowSnackBar -> {
                     val result = snackBarHostState.showSnackbar(
-                        message = event.message, actionLabel = event.action
+                        message = event.message,
+                        actionLabel = event.action,
+                        duration = SnackbarDuration.Short
                     )
 
                     if (result == SnackbarResult.ActionPerformed) {
