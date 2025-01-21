@@ -18,13 +18,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class AddEditTodoViewModel @Inject constructor(
     private val repository: TodoRepository,
     savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
+
     var todo by mutableStateOf<Todo?>(null)
         private set
 
@@ -38,48 +38,79 @@ class AddEditTodoViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val todoId = savedStateHandle.get<Int>("todoId")!!
+        loadTodoFromState(savedStateHandle)
+    }
+
+    private fun loadTodoFromState(savedStateHandle: SavedStateHandle) {
+        val todoId = savedStateHandle.get<Int>("todoId") ?: return
 
         if (todoId != -1) {
             viewModelScope.launch {
-                repository.getTodoById(todoId)?.let { todo ->
-                    title = todo.title
-                    description = todo.description ?: ""
-                    this@AddEditTodoViewModel.todo = todo
-                }
+                fetchTodoById(todoId)
             }
+        }
+    }
+
+    private suspend fun fetchTodoById(todoId: Int) {
+        repository.getTodoById(todoId)?.let { fetchedTodo ->
+            title = fetchedTodo.title
+            description = fetchedTodo.description.orEmpty()
+            todo = fetchedTodo
         }
     }
 
     fun onEvent(event: AddEditTodoEvent) {
         when (event) {
-            is AddEditTodoEvent.OnTitleChanged -> title = event.title
-            is AddEditTodoEvent.OnDescriptionChanged -> {
-                description = event.description
-            }
+            is AddEditTodoEvent.OnTitleChanged -> updateTitle(event.title)
+            is AddEditTodoEvent.OnDescriptionChanged -> updateDescription(event.description)
+            is AddEditTodoEvent.OnSaveTodoClick -> saveTodo()
+        }
+    }
 
-            is AddEditTodoEvent.OnSaveTodoClick -> {
-                viewModelScope.launch {
-                    if (title.isBlank()) {
-                        sendUiEvent(
-                            UiEvent.ShowSnackBar(
-                                message = context.getString(R.string.required_title)
-                            )
-                        )
+    private fun updateTitle(newTitle: String) {
+        title = newTitle
+    }
 
-                        return@launch
-                    }
-                    repository.insertTodo(
-                        Todo(
-                            title = title,
-                            description = description,
-                            isDone = todo?.isDone ?: false,
-                            id = todo?.id ?: 0
+    private fun updateDescription(newDescription: String) {
+        description = newDescription
+    }
+
+    private fun saveTodo() {
+        viewModelScope.launch {
+            if (validateInput()) {
+                try {
+                    saveOrUpdateTodo()
+                    sendUiEvent(UiEvent.PopBackStack)
+                } catch (e: Exception) {
+                    sendUiEvent(
+                        UiEvent.ShowSnackBar(
+                            message = context.getString(R.string.error_saving_todo)
                         )
                     )
                 }
             }
         }
+    }
+
+    private suspend fun saveOrUpdateTodo() {
+        val newTodo = Todo(
+            title = title,
+            description = description,
+            isDone = todo?.isDone ?: false,
+            id = todo?.id ?: 0
+        )
+        repository.insertTodo(newTodo)
+    }
+
+    private fun validateInput(): Boolean {
+        return if (title.isBlank()) {
+            sendUiEvent(
+                UiEvent.ShowSnackBar(
+                    message = context.getString(R.string.required_title)
+                )
+            )
+            false
+        } else true
     }
 
     private fun sendUiEvent(event: UiEvent) {

@@ -12,4 +12,6 @@
     <string name="menu">منو</string>
     <string name="theme_mode">تیره</string>
     <string name="select_language">انتخاب زبان</string>
+    <string name="error_saving_todo">ذخیره‌سازی وظیفه با مشکل مواجه شد. لطفاً دوباره تلاش کنید.</string>
+
 </resources>

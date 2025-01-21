@@ -12,4 +12,5 @@
     <string name="menu">menu</string>
     <string name="theme_mode">theme mode</string>
     <string name="select_language">select language</string>
+    <string name="error_saving_todo">Failed to save the task. Please try again.</string>
 </resources>
