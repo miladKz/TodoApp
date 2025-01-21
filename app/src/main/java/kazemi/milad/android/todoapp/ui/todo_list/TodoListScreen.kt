@@ -1,14 +1,10 @@
 package kazemi.milad.android.todoapp.ui.todo_list
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DrawerValue
@@ -25,10 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kazemi.milad.android.todoapp.R
 import kazemi.milad.android.todoapp.ui.setting.SettingViewModel
@@ -95,25 +88,9 @@ fun TodoListScreen(
                         todo = todo,
                         onEvent = viewModel::onEvent,
                         modifier = Modifier
-                            .fillMaxWidth()
                             .clickable {
                                 viewModel.onEvent(TodoListEvent.OnTodoClick(todo))
                             }
-                            .padding(vertical = 8.dp, horizontal = 16.dp)
-                            .shadow(
-                                elevation = 4.dp, // ارتفاع سایه
-                                shape = RoundedCornerShape(8.dp),
-                                clip = false
-                            )
-                            .background(
-                                color = Color.White,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = Color.LightGray,
-                                shape = RoundedCornerShape(8.dp)
-                            )
                     )
 
                 }
