@@ -28,47 +28,52 @@ class TodoListViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     private var deletedTodo: Todo? = null
+
     fun onEvent(event: TodoListEvent) {
         when (event) {
-            is TodoListEvent.OnDeleteTodoClick -> {
-                viewModelScope.launch {
-                    deletedTodo = event.todo
-                    repository.deleteTodo(event.todo)
-                    sendUiEvent(
-                        UiEvent.ShowSnackBar(
-                            message = context.getString(R.string.deleted_todo),
-                            action = context.getString(R.string.undo)
-                        )
-                    )
-                }
-            }
+            is TodoListEvent.OnDeleteTodoClick -> handleDeleteTodoClick(event.todo)
+            is TodoListEvent.OnUndoDeleteClick -> handleUndoDeleteClick()
+            is TodoListEvent.OnDoneChange -> handleDoneChange(event.todo, event.isDone)
+            is TodoListEvent.OnTodoClick -> navigateToEditTodo(event.todo.id)
+            is TodoListEvent.OnAddTodoClick -> navigateToAddTodo()
+        }
+    }
 
-            is TodoListEvent.OnUndoDeleteClick -> {
-                deletedTodo?.let { todo ->
-                    viewModelScope.launch {
-                        repository.insertTodo(todo)
-                    }
-                }
-            }
+    private fun handleDeleteTodoClick(todo: Todo) {
+        viewModelScope.launch {
+            deletedTodo = todo
+            repository.deleteTodo(todo)
+            sendUiEvent(
+                UiEvent.ShowSnackBar(
+                    message = context.getString(R.string.deleted_todo),
+                    action = context.getString(R.string.undo)
+                )
+            )
+        }
+    }
 
-            is TodoListEvent.OnDoneChange -> {
-                viewModelScope.launch {
-                    repository.insertTodo(
-                        event.todo.copy(
-                            isDone = event.isDone
-                        )
-                    )
-                }
-            }
-
-            is TodoListEvent.OnTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=${event.todo.id}"))
-            }
-
-            is TodoListEvent.OnAddTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO))
+    private fun handleUndoDeleteClick() {
+        deletedTodo?.let { todo ->
+            viewModelScope.launch {
+                repository.insertTodo(todo)
             }
         }
+    }
+
+    private fun handleDoneChange(todo: Todo, isDone: Boolean) {
+        viewModelScope.launch {
+            repository.insertTodo(
+                todo.copy(isDone = isDone)
+            )
+        }
+    }
+
+    private fun navigateToEditTodo(todoId: Int?) {
+        sendUiEvent(UiEvent.Navigate("${Routes.ADD_EDIT_TODO}?todoId=$todoId"))
+    }
+
+    private fun navigateToAddTodo() {
+        sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO))
     }
 
     private fun sendUiEvent(event: UiEvent) {
