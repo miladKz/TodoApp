@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kazemi.milad.android.todoapp.data.settings.SettingRepository
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,6 +18,10 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     //private val settingRepository: SettingRepository
 ) : ViewModel() {
+
+    private val _uiEvent = Channel<SettingEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     private val _language = MutableStateFlow("")
     val language: StateFlow<String> get() = _language
 

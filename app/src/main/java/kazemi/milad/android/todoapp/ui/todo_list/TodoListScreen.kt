@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 fun TodoListScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: TodoListViewModel = hiltViewModel(),
-    settingViewModel: SettingViewModel = hiltViewModel()
+    settingViewModel: SettingViewModel
 ) {
     val todos = viewModel.todos.collectAsState(initial = emptyList())
     val snackBarHostState = remember { SnackbarHostState() }
