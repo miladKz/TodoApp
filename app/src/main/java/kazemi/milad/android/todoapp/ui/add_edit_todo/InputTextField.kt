@@ -43,7 +43,7 @@ fun InputTextField(
 private fun defaultModifier(height: Dp): Modifier = Modifier
     .fillMaxWidth()
     .height(height)
-    .padding(14.dp)
+    .padding(vertical = 6.dp, horizontal = 16.dp)
     .background(
         color = Color.White,
         shape = RoundedCornerShape(8.dp)
