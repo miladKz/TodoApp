@@ -55,6 +55,7 @@ fun TodoListScreenDrawer(
         drawerState = drawerState,
         drawerContent = {
             DrawerContent(
+                settingsViewModel = settingsViewModel,
                 isDarkTheme = isDarkTheme.value,
                 currentLanguage = currentLanguage.value,
                 onLanguageChange = { newLanguage ->
@@ -79,7 +80,8 @@ fun DrawerContent(
     isDarkTheme: Boolean,
     currentLanguage: Language,
     onLanguageChange: (Language) -> Unit,
-    onThemeChange: (Boolean) -> Unit
+    onThemeChange: (Boolean) -> Unit,
+    settingsViewModel: SettingViewModel,
 ) {
     ModalDrawerSheet {
         Text(
@@ -89,7 +91,10 @@ fun DrawerContent(
         )
 
         ThemeSwitch(isDarkTheme = isDarkTheme, onThemeChange = onThemeChange)
-        LanguageSelector(currentLanguage = currentLanguage, onLanguageChange = onLanguageChange)
+        LanguageSelector(
+            currentLanguage = currentLanguage, onLanguageChange = onLanguageChange,
+            availableLanguages = settingsViewModel.availableLanguages
+        )
     }
 }
 
@@ -97,12 +102,9 @@ fun DrawerContent(
 @Composable
 fun LanguageSelector(
     currentLanguage: Language,
-    onLanguageChange: (Language) -> Unit
+    onLanguageChange: (Language) -> Unit,
+    availableLanguages: List<Language>
 ) {
-    val languages = listOf(
-        Language("English", "en"),
-        Language("فارسی", "fa")
-    )
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -116,7 +118,7 @@ fun LanguageSelector(
             .background(Color.White)
     ) {
         TextField(
-            value = currentLanguage.label,
+            value = currentLanguage.name,
             onValueChange = {},
             readOnly = true,
             label = { Text(stringResource(R.string.select_language)) },
@@ -133,9 +135,9 @@ fun LanguageSelector(
             expanded = expanded,
             onDismissRequest = { expanded = true }
         ) {
-            languages.forEach { language ->
+            availableLanguages.forEach { language ->
                 DropdownMenuItem(
-                    text = { Text(language.label) },
+                    text = { Text(language.name) },
                     onClick = {
                         onLanguageChange(language)
                         expanded = true
@@ -158,7 +160,6 @@ fun ThemeSwitch(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {

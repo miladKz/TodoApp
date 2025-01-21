@@ -13,8 +13,8 @@ class SettingPreferences(context: Context) {
         const val KEY_THEME = "key_theme"
     }
 
-    fun saveLanguage(language: String) {
-        sharedPreferences.edit().putString(KEY_LANGUAGE, language).apply()
+    fun saveLanguageCode(code: String) {
+        sharedPreferences.edit().putString(KEY_LANGUAGE, code).apply()
     }
 
     fun getLanguage(): String {

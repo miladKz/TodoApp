@@ -3,8 +3,8 @@ package kazemi.milad.android.todoapp.data.settings
 class SettingRepositoryImpl(
     private val settingPreferences: SettingPreferences
 ) : SettingRepository {
-    override suspend fun saveLanguage(languageCode: String) {
-        settingPreferences.saveLanguage(languageCode)
+    override suspend fun saveLanguageCode(code: String) {
+        settingPreferences.saveLanguageCode(code)
     }
 
     override suspend fun getLanguageCode(): String {

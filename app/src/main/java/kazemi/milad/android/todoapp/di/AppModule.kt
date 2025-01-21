@@ -6,6 +6,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kazemi.milad.android.todoapp.data.settings.SettingPreferences
 import kazemi.milad.android.todoapp.data.settings.SettingRepository
@@ -34,7 +35,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideSettingPreferences(context: Context): SettingPreferences {
+    fun provideSettingPreferences(@ApplicationContext context: Context): SettingPreferences {
         return SettingPreferences(context)
     }
 

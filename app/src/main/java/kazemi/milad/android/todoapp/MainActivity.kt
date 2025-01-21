@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             var composableKey by remember { mutableIntStateOf(0) }
 
             LaunchedEffect(currentLanguage) {
-                val locale = Locale(currentLanguage.languageCode)
+                val locale = Locale(currentLanguage.code)
 
                 updateLocale(locale)
 

@@ -1,7 +1,7 @@
 package kazemi.milad.android.todoapp.data.settings
 
 interface SettingRepository {
-    suspend fun saveLanguage(languageCode: String)
+    suspend fun saveLanguageCode(code: String)
 
     suspend fun getLanguageCode(): String
 
